@@ -136,15 +136,17 @@
                     latlong[0] = (location.coords.latitude);
                     latlong[1] = (location.coords.longitude);
                     latlong[2] = (location.coords.accuracy);
+					 
+					database.ref('point/' + Date.now()).set({
+						id: id,
+						lat: ""+latlong[0],
+						long: ""+latlong[1],
+						size: document.getElementById('size').value,
+						user_id: current_user.uid,
+						user_name: current_user.displayName,
+					});
                 });
-                database.ref('point/' + Date.now()).set({
-                    id: id,
-                    lat: latlong[0],
-                    long: latlong[1],
-                    size: document.getElementById('size').value,
-                    user_id: current_user.uid,
-                    user_name: current_user.displayName,
-                });
+                
                 
             }
             function fb() {
