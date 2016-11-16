@@ -149,6 +149,19 @@
                 
                 
             }
+			
+      function getCircle(magnitude) {
+		  magnitude = parseInt(magnitude);
+		  console.log(magnitude);
+        return {
+          path: google.maps.SymbolPath.CIRCLE,
+          fillColor: 'red',
+          fillOpacity: .2,
+          scale: Math.pow(2, magnitude) / 2,
+          strokeColor: 'white',
+          strokeWeight: .5
+        };
+      }
             function fb() {
                 fprovider.setCustomParameters({
                     'display': 'popup'
@@ -190,7 +203,7 @@
             <div id="map"></div>
             
             <ul>
-                <li> <input type="number" name="size" id="size" value="1" min="1" max="5"> <a href="#" onClick="pointmark();">Mark</a></li>
+                <li> <input type="number" name="size" id="size" value="5" min="3" max="10"> <a href="#" onClick="pointmark();">Mark</a></li>
             </ul>
         </div>
         <script>
@@ -201,6 +214,9 @@
                     zoom: 18,
                     center: uluru
                 });
+			 
+				 
+				  
 				var infowindow = new google.maps.InfoWindow();
 				database.ref('/point/').once('value').then(function (snapshot) {
 					pos = snapshot.val();
@@ -213,10 +229,10 @@
                     for (var key in pos) {
                         if (!pos.hasOwnProperty(key))
                         continue;
-                        var obj = pos[key];
-                        console.log(obj.lat);
+                        var obj = pos[key]; 
                         marker = new google.maps.Marker({
                             position: new google.maps.LatLng(obj.lat, obj.long),
+							icon:  getCircle(obj.size),
                             map: map
                         });
                         google.maps.event.addListener(marker, 'click', (function(marker, key) {
